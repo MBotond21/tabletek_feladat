@@ -16,7 +16,7 @@ export function Kartya(props: Props) {
                 <h5 className="card-title">{tablet.manufacturer} {tablet.model}</h5>
                 <h6 className="card-subtitle mb-2 text-muted">Processor: {tablet.processor}</h6>
                 <p className="card-text">
-                    <strong>Clock Speed:</strong> {tablet.processor_clock_speed} MHz<br />
+                    <strong>Clock Speed:</strong> {tablet.processor_clock_speed/1000} GHz<br />
                     <strong>Cores:</strong> {tablet.processor_cores}<br />
                     <strong>Storage:</strong> {tablet.storage} GB<br />
                     <strong>Screen Size:</strong> {tablet.screen_size}"<br />

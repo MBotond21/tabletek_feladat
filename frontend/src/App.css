@@ -9,6 +9,24 @@ body {
     max-width: calc(100% - 6rem);
 }
 
+nav a{
+    text-decoration: none;
+    color: black;
+    padding: 10px 20px;
+    margin-top: 0.5rem;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+    border-left: 2px solid gray;
+    border-right: 2px solid gray;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+nav a:hover{
+    background-color: rgb(165, 165, 165);
+}
+
 .del {
     background-color: #4CAF50;
     color: white;

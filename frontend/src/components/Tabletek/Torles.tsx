@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react"
+import { Kartya } from "../Kartya";
 
 interface Tablet {
     id: number;
     manufacturer: string;
     model: string;
     processor: string;
-    ram: number;
+    processor_clock_speed: number;
+    processor_cores: number;
     storage: number;
-    screenResolution: string;
-    screenType: string;
-    operatingSystem: string;
+    screen_size: number;
+    screen_resolution: string;
+    price: number;
 }
 
 export default function Torles() {
@@ -67,15 +69,14 @@ export default function Torles() {
 
     return <>
         <h2>Tabletek listája</h2>
-        <ul>
-            {tablets.map((tablet) => (
-                <li key={tablet.id}>
-                    {tablet.manufacturer} {tablet.model} : RAM: {tablet.ram} GB, Storge: {tablet.storage}
-                    <span style={{cursor: 'pointer', marginLeft: '0.8rem'}} onClick={() => {handleDelete(tablet.id)}}>Törlés</span>
-                </li>
-            )
-            )
+        <div className="box">
+            {
+
+                tablets.map((tablet) => (
+                    <Kartya tablet={tablet} btn={<button className='del' onClick={() => {handleDelete(tablet.id)}}>Törlés</button>} />
+                )
+                )
             }
-        </ul>
+        </div>
     </>
 }

@@ -5,11 +5,12 @@ export default function Felvetel() {
     const [manufacturer, setManufacturer] = useState<string>('');
     const [model, setModel] = useState<string>('');
     const [processor, setProcessor] = useState<string>('');
-    const [ram, setRam] = useState<number | null>(null);
-    const [storage, setStorage] = useState<number | null>(null);
+    const [processorClockSpeed, setProcessorClockSpeed] = useState<number>(0);
+    const [processorCores, setProcessorCores] = useState<number>(0);
+    const [storage, setStorage] = useState<number>(0);
+    const [screenSize, setScreenSize] = useState<number>(0);
     const [screenResolution, setScreenResolution] = useState<string>('');
-    const [screenType, setScreenType] = useState<string>('');
-    const [operatingSystem, setOperatingSystem] = useState<string>('');
+    const [price, setPrice] = useState<number>(0);
     const [success, setSuccess] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
 
@@ -21,11 +22,12 @@ export default function Felvetel() {
             manufacturer: manufacturer,
             model: model,
             processor: processor,
-            ram: ram,
+            processorClockSpeed: processorClockSpeed,
+            processorCores: processorCores,
             storage: storage,
-            screen_resolution: screenResolution,
-            screen_type: screenType,
-            operating_system: operatingSystem
+            screenSize: screenSize,
+            screenResolution: screenResolution,
+            price: price
         }
         try {
             const response = await fetch('http://localhost:3000/tablets', {
@@ -39,7 +41,7 @@ export default function Felvetel() {
                 throw new Error(`Szerverhiba: ${response.status}`);
             }
             setSuccess(true);
-            
+
         } catch (err) { setError(err.message) }
     }
 
@@ -48,69 +50,41 @@ export default function Felvetel() {
         <form>
             <div>
                 <label>Manufacturer:</label>
-                <input
-                    type="text"
-                    value={manufacturer}
-                    onChange={(e) => setManufacturer(e.target.value)}
-                />
+                <input value={manufacturer} onChange={(e) => setManufacturer(e.target.value)} />
             </div>
             <div>
                 <label>Model:</label>
-                <input
-                    type="text"
-                    value={model}
-                    onChange={(e) => setModel(e.target.value)}
-                />
+                <input value={model} onChange={(e) => setModel(e.target.value)} />
             </div>
             <div>
                 <label>Processor:</label>
-                <input
-                    type="text"
-                    value={processor}
-                    onChange={(e) => setProcessor(e.target.value)}
-                />
+                <input value={processor} onChange={(e) => setProcessor(e.target.value)} />
             </div>
             <div>
-                <label>RAM (GB):</label>
-                <input
-                    type="number"
-                    value={ram ?? ''}
-                    onChange={(e) => setRam(Number(e.target.value))}
-                />
+                <label>Processor Clock Speed (MHz):</label>
+                <input type="number" value={processorClockSpeed} onChange={(e) => setProcessorClockSpeed(parseInt(e.target.value))} />
+            </div>
+            <div>
+                <label>Processor Cores:</label>
+                <input type="number" value={processorCores} onChange={(e) => setProcessorCores(parseInt(e.target.value))} />
             </div>
             <div>
                 <label>Storage (GB):</label>
-                <input
-                    type="number"
-                    value={storage ?? ''}
-                    onChange={(e) => setStorage(Number(e.target.value))}
-                />
+                <input type="number" value={storage} onChange={(e) => setStorage(parseInt(e.target.value))} />
+            </div>
+            <div>
+                <label>Screen Size (inches):</label>
+                <input type="number" value={screenSize} onChange={(e) => setScreenSize(parseInt(e.target.value))} />
             </div>
             <div>
                 <label>Screen Resolution:</label>
-                <input
-                    type="text"
-                    value={screenResolution}
-                    onChange={(e) => setScreenResolution(e.target.value)}
-                />
+                <input value={screenResolution} onChange={(e) => setScreenResolution(e.target.value)} />
             </div>
             <div>
-                <label>Screen Type:</label>
-                <input
-                    type="text"
-                    value={screenType}
-                    onChange={(e) => setScreenType(e.target.value)}
-                />
+                <label>Price in HUF:</label>
+                <input type="number" value={price} onChange={(e) => setPrice(parseInt(e.target.value))} />
             </div>
-            <div>
-                <label>Operating System:</label>
-                <input
-                    type="text"
-                    value={operatingSystem}
-                    onChange={(e) => setOperatingSystem(e.target.value)}
-                />
-            </div>
-            <input type="submit" value={"Submit"} onClick={(e) => handleSubmit(e)} />
+            <button onClick={handleSubmit}>Submit</button>
         </form>
 
         {error && <p>Hiba történt: {error}</p>}

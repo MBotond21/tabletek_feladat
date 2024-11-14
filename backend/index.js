@@ -12,7 +12,7 @@ const db = mysql.createConnection({
   host: 'localhost',
   user: 'root',
   password: '', // Replace with your MySQL password
-  database: 'TabletDb'  // Replace with your database name
+  database: 'tabletdb'  // Replace with your database name
 });
 
 db.connect(err => {
@@ -22,50 +22,82 @@ db.connect(err => {
 
 app.use(express.json());
 
-// Get all tablets
+// GET all tablets
 app.get('/tablets', (req, res) => {
-  db.query('SELECT * FROM Tablets', (err, results) => {
-    if (err) return res.status(500).send(err);
+  const query = 'SELECT * FROM Tablets';
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error('Error fetching tablets:', err);
+      return res.status(500).send('Database error');
+    }
     res.json(results);
   });
 });
 
-// Get tablet by ID
+// GET a tablet by ID
 app.get('/tablets/:id', (req, res) => {
-  const { id } = req.params;
-  db.query('SELECT * FROM Tablets WHERE id = ?', [id], (err, result) => {
-    if (err) return res.status(500).send(err);
-    res.json(result);
+  const query = 'SELECT * FROM Tablets WHERE id = ?';
+  db.query(query, [req.params.id], (err, results) => {
+    if (err) {
+      console.error('Error fetching tablet:', err);
+      return res.status(500).send('Database error');
+    }
+    if (results.length === 0) {
+      return res.status(404).send('Tablet not found');
+    }
+    res.json(results[0]);
   });
 });
 
-// Add a new tablet
+// POST a new tablet
 app.post('/tablets', (req, res) => {
-  const { manufacturer, model, processor, ram, storage, screen_resolution, screen_type, operating_system } = req.body;
-  const query = 'INSERT INTO Tablets (manufacturer, model, processor, ram, storage, screen_resolution, screen_type, operating_system) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
-  db.query(query, [manufacturer, model, processor, ram, storage, screen_resolution, screen_type, operating_system], (err, result) => {
-    if (err) return res.status(500).send(err);
-    res.json({ id: result.insertId, ...req.body });
+  const { manufacturer, model, processor, processorClockSpeed, processorCores, storage, screenSize, screenResolution, price } = req.body;
+  const query = `
+    INSERT INTO Tablets (manufacturer, model, processor, processor_clock_speed, processor_cores, storage, screen_size, screen_resolution, price)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `;
+  const values = [manufacturer, model, processor, processorClockSpeed, processorCores, storage, screenSize, screenResolution, price];
+  db.query(query, values, (err, result) => {
+    if (err) {
+      console.error('Error inserting tablet:', err);
+      return res.status(500).send('Database error');
+    }
+    res.status(201).send(`Tablet added with ID: ${result.insertId}`);
   });
 });
 
-// Update a tablet by ID
+// PUT to update a tablet by ID
 app.put('/tablets/:id', (req, res) => {
-  const { id } = req.params;
-  const { manufacturer, model, processor, ram, storage, screen_resolution, screen_type, operating_system } = req.body;
-  const query = 'UPDATE Tablets SET manufacturer = ?, model = ?, processor = ?, ram = ?, storage = ?, screen_resolution = ?, screen_type = ?, operating_system = ? WHERE id = ?';
-  db.query(query, [manufacturer, model, processor, ram, storage, screen_resolution, screen_type, operating_system, id], (err) => {
-    if (err) return res.status(500).send(err);
-    res.send('Tablet updated');
+  const { manufacturer, model, processor, processorClockSpeed, processorCores, storage, screenSize, screenResolution, price } = req.body;
+  const query = `
+    UPDATE Tablets SET manufacturer = ?, model = ?, processor = ?, processor_clock_speed = ?, processor_cores = ?, storage = ?, screen_size = ?, screen_resolution = ?, price = ?
+    WHERE id = ?
+  `;
+  const values = [manufacturer, model, processor, processorClockSpeed, processorCores, storage, screenSize, screenResolution, price, req.params.id];
+  db.query(query, values, (err, result) => {
+    if (err) {
+      console.error('Error updating tablet:', err);
+      return res.status(500).send('Database error');
+    }
+    if (result.affectedRows === 0) {
+      return res.status(404).send('Tablet not found');
+    }
+    res.send(`Tablet with ID: ${req.params.id} updated successfully`);
   });
 });
 
-// Delete a tablet by ID
+// DELETE a tablet by ID
 app.delete('/tablets/:id', (req, res) => {
-  const { id } = req.params;
-  db.query('DELETE FROM Tablets WHERE id = ?', [id], (err) => {
-    if (err) return res.status(500).send(err);
-    res.send('Tablet deleted');
+  const query = 'DELETE FROM Tablets WHERE id = ?';
+  db.query(query, [req.params.id], (err, result) => {
+    if (err) {
+      console.error('Error deleting tablet:', err);
+      return res.status(500).send('Database error');
+    }
+    if (result.affectedRows === 0) {
+      return res.status(404).send('Tablet not found');
+    }
+    res.send(`Tablet with ID: ${req.params.id} deleted successfully`);
   });
 });
 

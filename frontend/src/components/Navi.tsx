@@ -2,9 +2,9 @@ export function Navi() {
     return <>
         <nav>
             <h2>Menü</h2>
-            <a href="/tabletlista">Tabletek Listája</a>
-            <a href="/tabletfelvetel">Tablet Felvétel</a>
-            <a href="/tablettorles">Tablet Törlés</a>
+            <a href="/tablet-lista">Tabletek Listája</a>
+            <a href="/tablet-felvetel">Tablet Felvétel</a>
+            <a href="/tablet-torles">Tablet Törlés</a>
         </nav>
     </>
 }

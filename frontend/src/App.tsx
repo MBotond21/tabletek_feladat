@@ -16,15 +16,15 @@ function App() {
       element: <h1>Home</h1>,
     },
     {
-      path: "/tabletlista",
+      path: "/tablet-lista",
       element: <Listazas />,
     },
     {
-      path: "/tabletfelvetel",
+      path: "/tablet-felvetel",
       element: <Felvetel />,
     },
     {
-      path: "/tablettorles",
+      path: "/tablet-torles",
       element: <Torles/>,
     }
   ]);

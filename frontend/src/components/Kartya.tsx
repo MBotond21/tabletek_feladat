@@ -1,18 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { ReactElement } from 'react';
-
-interface Tablet {
-    id: number;
-    manufacturer: string;
-    model: string;
-    processor: string;
-    processor_clock_speed: number;
-    processor_cores: number;
-    storage: number;
-    screen_size: number;
-    screen_resolution: string;
-    price: number;
-}
+import { Tablet } from '../tablet';
 
 interface Props {
     tablet: Tablet;

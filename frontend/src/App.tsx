@@ -6,6 +6,7 @@ import {
 import Listazas from './components/Tabletek/Listazas';
 import Felvetel from './components/Tabletek/Felvetel';
 import Torles from './components/Tabletek/Torles';
+import Kezdo from './components/Tabletek/Kezdo';
 import { Navi } from './components/Navi';
 
 function App() {
@@ -13,7 +14,7 @@ function App() {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <h1>Home</h1>,
+      element: <Kezdo/>,
     },
     {
       path: "/tablet-lista",

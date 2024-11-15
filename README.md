@@ -2,7 +2,7 @@ Frontend:
 
       végpontok:
 
-            /
+            /\
                   legdrágább 3 tablet
                   legolcsóbb 3 tablet
             /tabletek-lista

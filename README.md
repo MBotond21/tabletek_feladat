@@ -1,6 +1,6 @@
-Frontend:\
+Frontend:
 
-      végpontok:\
+      végpontok:
 
             /\
                   legdrágább 3 tablet\
@@ -10,4 +10,4 @@ Frontend:\
             /tabletek-felvetel\
                   egyszerű form új tablet felvételére\
             /tabletek-torles\
-                  összes tablet listázva törlés gombbal\
+                  összes tablet listázva törlés gombbal

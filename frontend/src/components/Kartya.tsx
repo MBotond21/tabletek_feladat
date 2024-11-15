@@ -21,7 +21,7 @@ export function Kartya(props: Props) {
                     <strong>Storage:</strong> {tablet.storage} GB<br />
                     <strong>Screen Size:</strong> {tablet.screen_size}"<br />
                     <strong>Resolution:</strong> {tablet.screen_resolution}<br />
-                    <strong>Price:</strong> {tablet.price} HUF
+                    <strong>Price:</strong> {Intl.NumberFormat('fr-FR').format(tablet.price)} HUF
                     {
                         props.btn? <><br />{props.btn}</>: <span></span>
                     }

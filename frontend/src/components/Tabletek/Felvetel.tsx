@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { parsePath } from "react-router-dom";
 
 export default function Felvetel() {
 
@@ -84,7 +85,7 @@ export default function Felvetel() {
                 <label>Price in HUF:</label>
                 <input type="number" value={price} onChange={(e) => setPrice(parseInt(e.target.value))} />
             </div>
-            <button onClick={handleSubmit}>Submit</button>
+            <button onClick={handleSubmit} className="sbtn">Submit</button>
         </form>
 
         {error && <p>Hiba történt: {error}</p>}

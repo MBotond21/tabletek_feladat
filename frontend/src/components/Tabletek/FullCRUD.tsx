@@ -9,7 +9,7 @@ export default function FullCRUD() {
     const [error, setError] = useState<string | null>(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
-    const [sortConfig, setSortConfig] = useState<{ key: keyof Tablet; direction: string } | null>(null);
+    const [sortConfig, setSortConfig] = useState<{ key: keyof Tablet; direction: string } | null>({key: 'dft' as keyof Tablet, direction: 'asc'});
     const [searchTerm, setSearchTerm] = useState('');
 
     const fetchTablets = (page: number) => {
@@ -36,16 +36,32 @@ export default function FullCRUD() {
             });
     };
 
-    const handelChanged = (e: HTMLInputElement) => {
+    const handelDirectionChanged = (e: HTMLInputElement) => {
         const temp = {
             key: sortConfig!.key,
             direction: e.value
         }
 
         setSortConfig(temp);
+        sortTablets(sortConfig!.key, sortConfig!.direction as 'asc' | 'desc');
+    }
+
+    const handelOrderChanged = (e: HTMLInputElement) => {
+        const temp = {
+            key: e.value as keyof Tablet,
+            direction: sortConfig!.direction
+        }
+
+        setSortConfig(temp);
+        sortTablets(sortConfig!.key, sortConfig!.direction as 'asc' | 'desc');
     }
 
     const sortTablets = (key: keyof Tablet, direction: 'asc' | 'desc') => {
+        if(key == 'dft' as keyof Tablet){
+            setFilteredTablets(tablets);
+            setSortConfig({ key, direction });
+            return;
+        }
         const sortedTablets = [...filteredTablets].sort((a, b) => {
             if (a[key] < b[key]) return direction === 'asc' ? -1 : 1;
             if (a[key] > b[key]) return direction === 'asc' ? 1 : -1;
@@ -78,14 +94,14 @@ export default function FullCRUD() {
             <h1>Full CRUD</h1>
 
             <div className='box right'>
-                <button className='btn' onClick={() => console.log('asc')}>&#8593;</button>
-                <button className='btn' onClick={() => console.log('desc')}>&#8595;</button>
-                <select name="sort">
+                <button className='btn' value={'asc'} onClick={(e) => handelDirectionChanged(e)}>&#8593;</button>
+                <button className='btn' value={'desc'} onClick={(e) => handelDirectionChanged(e)}>&#8595;</button>
+                <select name="sort" onChange={(e) => handelOrderChanged(e)}>
                     <option value="dft">Default</option>
-                    <option value="prc">Price</option>
-                    <option value="clck">Clock Speed</option>
-                    <option value="crs">Cores</option>
-                    <option value="strg">Storage</option>
+                    <option value="price">Price</option>
+                    <option value="processor_clock_speed">Clock Speed</option>
+                    <option value="processor_cores">Cores</option>
+                    <option value="storage">Storage</option>
                 </select>
             </div>
 

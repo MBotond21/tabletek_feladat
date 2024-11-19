@@ -6,6 +6,7 @@ export function Navi() {
             <a href="/tablet-lista">Tabletek Listája</a>
             <a href="/tablet-felvetel">Tablet Felvétel</a>
             <a href="/tablet-torles">Tablet Törlés</a>
+            <a href="/tabletekfullcrud">Full CRUD</a>
         </nav>
     </>
 }

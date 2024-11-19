@@ -85,7 +85,7 @@ export default function Felvetel() {
                 <label>Price in HUF:</label>
                 <input type="number" value={price} onChange={(e) => setPrice(parseInt(e.target.value))} />
             </div>
-            <button onClick={handleSubmit} className="sbtn">Submit</button>
+            <button onClick={handleSubmit} className="btn">Submit</button>
         </form>
 
         {error && <p>Hiba történt: {error}</p>}

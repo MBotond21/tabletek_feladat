@@ -35,7 +35,7 @@ export default function Torles() {
                 return response.json()
             })
             .then((data) => {
-                setTablets(data);
+                setTablets(data.data);
                 setLoading(false);
                 //console.log(data); 
             })

@@ -23,7 +23,7 @@ export default function Kezdo() {
                 return response.json()
             })
             .then((data) => {
-                setTablets(data);
+                setTablets(data.data);
                 setLoading(false);
                 //console.log(data); 
             })

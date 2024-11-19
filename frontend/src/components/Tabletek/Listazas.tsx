@@ -23,9 +23,8 @@ export default function Listazas() {
                 return response.json()
             })
             .then((data) => {
-                setTablets(data);
+                setTablets(data.data);
                 setLoading(false);
-                //console.log(data); 
             })
             .catch((error) => {
                 console.log(error.message)

@@ -36,24 +36,23 @@ export default function FullCRUD() {
             });
     };
 
-    const handelDirectionChanged = (e: HTMLInputElement) => {
-        const temp = {
-            key: sortConfig!.key,
-            direction: e.value
+    useEffect(() => {
+        if (sortConfig) {
+            sortTablets(sortConfig.key, sortConfig.direction as 'asc' | 'desc');
         }
+    }, [sortConfig]);
 
-        setSortConfig(temp);
-        sortTablets(sortConfig!.key, sortConfig!.direction as 'asc' | 'desc');
+    const handelDirectionChanged = (direction: string) => {
+        const key = sortConfig!.key;
+
+        setSortConfig({ key, direction });
     }
 
-    const handelOrderChanged = (e: HTMLInputElement) => {
-        const temp = {
-            key: e.value as keyof Tablet,
-            direction: sortConfig!.direction
-        }
+    const handelOrderChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const key = e.target.value as keyof Tablet
+        const direction = sortConfig!.direction
 
-        setSortConfig(temp);
-        sortTablets(sortConfig!.key, sortConfig!.direction as 'asc' | 'desc');
+        setSortConfig({key, direction});
     }
 
     const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -92,6 +91,18 @@ export default function FullCRUD() {
         }
     };
 
+    const handleDelete = async (id: number) => {
+        if(confirm("Biztosan törölni szeretnéd?")){
+            try{
+                const response = await fetch(`http://localhost:3000/tablets/${id}`, {
+                    method: 'DELETE',
+                })
+                setTablets(tablets.filter( (o) => o.id !== id ))
+
+            }catch(err) {}
+        }
+    }
+
     if (loading) {
         return <p>Loading...</p>;
     }
@@ -117,8 +128,8 @@ export default function FullCRUD() {
             </form>
 
             <div className='box right'>
-                <button className='btn' value={'asc'} onClick={(e) => handelDirectionChanged(e)}>&#8593;</button>
-                <button className='btn' value={'desc'} onClick={(e) => handelDirectionChanged(e)}>&#8595;</button>
+                <button className='btn' onClick={() => handelDirectionChanged('asc')}>&#8593;</button>
+                <button className='btn' onClick={() => handelDirectionChanged('desc')}>&#8595;</button>
                 <select name="sort" onChange={(e) => handelOrderChanged(e)}>
                     <option value="dft">Default</option>
                     <option value="price">Price</option>
@@ -132,7 +143,7 @@ export default function FullCRUD() {
                 {
 
                     filteredTablets.map((tablet) => (
-                        <Kartya tablet={tablet} />
+                        <Kartya tablet={tablet} btn={<button className='del' onClick={() => {handleDelete(tablet.id)}}>Törlés</button>}/>
                     )
                     )
                 }

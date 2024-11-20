@@ -56,6 +56,17 @@ export default function FullCRUD() {
         sortTablets(sortConfig!.key, sortConfig!.direction as 'asc' | 'desc');
     }
 
+    const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const term = event.target.value.toLowerCase();
+        setSearchTerm(term);
+        const filtered = tablets.filter(
+            (tablet) =>
+                tablet.manufacturer.toLowerCase().includes(term) ||
+                tablet.model.toLowerCase().includes(term)
+        );
+        setFilteredTablets(filtered);
+    };
+
     const sortTablets = (key: keyof Tablet, direction: 'asc' | 'desc') => {
         if(key == 'dft' as keyof Tablet){
             setFilteredTablets(tablets);
@@ -92,6 +103,18 @@ export default function FullCRUD() {
     return (
         <div>
             <h1>Full CRUD</h1>
+
+            <form>
+                <label>
+                    Keresés:
+                    <input
+                        type="text"
+                        value={searchTerm}
+                        onChange={handleSearch}
+                        placeholder="Márka vagy típus alapján..."
+                    />
+                </label>
+            </form>
 
             <div className='box right'>
                 <button className='btn' value={'asc'} onClick={(e) => handelDirectionChanged(e)}>&#8593;</button>
